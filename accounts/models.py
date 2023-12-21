@@ -9,7 +9,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User , on_delete=models.CASCADE)
-    phonenumber = models.IntegerField( validators=[MaxValueValidator(100),MinValueValidator(1) ] , null=True , blank=True) 
+    phonenumber = models.IntegerField( null=True , blank=True) 
     addres = models.TextField(max_length=100 , null=True , blank=True)
 
     def __str__(self):
