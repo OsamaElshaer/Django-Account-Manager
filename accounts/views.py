@@ -1,4 +1,4 @@
-from django.http import HttpResponseNotFound
+from django.http import Http404, HttpResponseNotAllowed, HttpResponseNotFound
 from django.shortcuts import redirect, render 
 from .forms import *
 from django.contrib.auth import login , authenticate
@@ -31,14 +31,16 @@ def signup(request):
 def profile(request):
     try:
         profile = Profile.objects.get(user=request.user)
-    except User.DoesNotExist:
-        raise HttpResponseNotFound
-
+    except Profile.DoesNotExist:
+        raise Http404
     return render(request , 'profile/profile.html' , {'profile':profile})
 
 
 def profile_edit(request):
-    profile=Profile.objects.get(user=request.user)
+    try:
+        profile=Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        raise Http404
 
     if request.method=='POST':
         userform=UserForm(request.POST , instance= request.user)
